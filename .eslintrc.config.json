@@ -1,0 +1,74 @@
+{
+	"parser": "@typescript-eslint/parser",
+	"plugins": [
+		"@typescript-eslint",
+		"eslint-plugin-import-helpers",
+		"only-warn",
+		"validate-filename"
+	],
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:storybook/recommended",
+		"prettier"
+	],
+	"rules": {
+		"no-console": "warn",
+		"@typescript-eslint/no-use-before-define": "error",
+		"react/jsx-filename-extension": [
+			"error",
+			{
+				"extensions": [".tsx"]
+			}
+		],
+		"import/no-duplicates": [
+			"error",
+			{
+				"considerQueryString": true
+			}
+		],
+		"import-helpers/order-imports": [
+			"warn",
+			{
+				"newlinesBetween": "always",
+				"groups": [
+					["/^react/"],
+					["module"],
+					["/^~//"],
+					["parent", "sibling", "index"]
+				],
+				"alphabetize": {
+					"order": "asc",
+					"ignoreCase": true
+				}
+			}
+		],
+		"validate-filename/naming-rules": [
+			"error",
+			{
+				"rules": [
+					{
+						"case": "pascal",
+						"target": "**/components/**"
+					},
+					{
+						"case": "kebab",
+						"target": "**/app/**",
+						"patterns": "^(page|layout|loading|error|not-found|route|template).tsx$"
+					},
+					{
+						"case": "camel",
+						"target": "**/hooks/**",
+						"patterns": "^use"
+					},
+					{
+						"case": "camel",
+						"target": "**/providers/**",
+						"patterns": "^[a-zA-Z]*Provider"
+					}
+				]
+			}
+		]
+	},
+	"ignorePatterns": ["!.storybook"]
+}
