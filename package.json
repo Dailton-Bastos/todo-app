@@ -1,12 +1,12 @@
 {
-	"name": "next-template",
+	"name": "todo-app",
 	"version": "0.1.0",
 	"private": false,
-	"description": "Initial structure for any Next.js application",
+	"description": "Create easy tasks",
 	"author": "Dailton Bastos <dailtonbastos@gmail.com>",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Dailton-Bastos/next-template"
+		"url": "https://github.com/Dailton-Bastos/todo-app"
 	},
 	"scripts": {
 		"dev": "next dev",
