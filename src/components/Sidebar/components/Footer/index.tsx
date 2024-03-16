@@ -2,7 +2,7 @@ import React from 'react'
 import { CiLogout } from 'react-icons/ci'
 import { IoSunnyOutline } from 'react-icons/io5'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/Button'
 import { Switch } from '@/components/ui/Switch'
 
 export const Footer = () => {
