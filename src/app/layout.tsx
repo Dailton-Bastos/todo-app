@@ -1,4 +1,6 @@
+import { Box } from '@/components/Box'
 import { Sidebar } from '@/components/Sidebar'
+import { ModalProvider } from '@/providers/modalProvider'
 import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import './globals.css'
@@ -23,8 +25,14 @@ export default function RootLayout({
 						<Sidebar />
 					</div>
 
-					<main className='h-full flex-1 py-2'>{children}</main>
+					<main className='h-full flex-1 py-2 pr-2'>
+						<Box className='w-full h-full rounded-lg overflow-hidden border-none py-10 px-8'>
+							{children}
+						</Box>
+					</main>
 				</div>
+
+				<ModalProvider />
 			</body>
 		</html>
 	)
