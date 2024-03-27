@@ -11,3 +11,12 @@ export const registerSchema = z.object({
 	}),
 	password: z.string().min(8).regex(passwordValidation),
 })
+
+export const loginSchema = z.object({
+	email: z.string().email({
+		message: 'Email is required',
+	}),
+	password: z.string().min(1, {
+		message: 'Password is required',
+	}),
+})
