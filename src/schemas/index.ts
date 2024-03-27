@@ -20,3 +20,9 @@ export const loginSchema = z.object({
 		message: 'Password is required',
 	}),
 })
+
+export const forgotSchema = z.object({
+	email: z.string().email({
+		message: 'Email is required',
+	}),
+})
