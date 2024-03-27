@@ -23,7 +23,7 @@ export const CardWrapper = ({
 	footerLinks = [],
 }: Props) => {
 	return (
-		<Card className='border-none shadow-none'>
+		<Card className='border-none shadow-none w-full max-w-lg'>
 			<CardHeader>
 				<AuthHeader label={headerLabel} />
 			</CardHeader>
