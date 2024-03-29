@@ -1,10 +1,10 @@
 import { Prisma } from '@prisma/client'
-import bcrypt from 'bcryptjs'
+import * as argon2 from 'argon2'
 
 import { db } from '../config/db'
 
 async function main() {
-	const hashedPassword = await bcrypt.hash('12345678', 10)
+	const hashedPassword = await argon2.hash('12345678')
 
 	const userData: Prisma.UserCreateInput[] = [
 		{
