@@ -1,7 +1,9 @@
 import { Box } from '@/components/Box'
 import { Sidebar } from '@/components/Sidebar'
 import { ModalProvider } from '@/providers/modalProvider'
+import { SessionProvider } from '@/providers/sessionProvider'
 import { ToasterProvider } from '@/providers/toasterProvider'
+import { validateRequest } from '@/utils/session'
 import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import './globals.css'
@@ -13,28 +15,32 @@ export const metadata: Metadata = {
 	description: 'Create easy tasks',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+	const { session, user } = await validateRequest()
+
 	return (
 		<html lang='en'>
 			<body className={font.className}>
-				<div className='flex h-full w-full'>
-					<div className='bg-black h-full w-80 p-2'>
-						<Sidebar />
+				<SessionProvider session={session} user={user}>
+					<div className='flex h-full w-full'>
+						<div className='bg-black h-full w-80 p-2'>
+							<Sidebar />
+						</div>
+
+						<main className='h-full flex-1 py-2 pr-2'>
+							<Box className='w-full h-full rounded-lg overflow-hidden border-none py-10 px-8'>
+								{children}
+							</Box>
+						</main>
 					</div>
 
-					<main className='h-full flex-1 py-2 pr-2'>
-						<Box className='w-full h-full rounded-lg overflow-hidden border-none py-10 px-8'>
-							{children}
-						</Box>
-					</main>
-				</div>
-
-				<ModalProvider />
-				<ToasterProvider />
+					<ModalProvider />
+					<ToasterProvider />
+				</SessionProvider>
 			</body>
 		</html>
 	)
