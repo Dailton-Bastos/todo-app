@@ -1,6 +1,7 @@
 import { Box } from '@/components/Box'
 import { Sidebar } from '@/components/Sidebar'
 import { ModalProvider } from '@/providers/modalProvider'
+import { ToasterProvider } from '@/providers/toasterProvider'
 import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import './globals.css'
@@ -33,6 +34,7 @@ export default function RootLayout({
 				</div>
 
 				<ModalProvider />
+				<ToasterProvider />
 			</body>
 		</html>
 	)
