@@ -1,6 +1,7 @@
 'use server'
 
 import { lucia } from '@/auth'
+import { generateEmailVerificationCode } from '@/lib/code'
 import { loginSchema } from '@/schemas'
 import { getUserByEmail } from '@/utils/user'
 import * as argon2 from 'argon2'
@@ -33,6 +34,25 @@ export const login = async (
 
 	if (!validPassword) {
 		return { status: 'error', message: 'Incorrect email or password' }
+	}
+
+	if (!existingUser.emailVerified) {
+		const code = await generateEmailVerificationCode({
+			email: existingUser.email,
+			userId: existingUser.id,
+		})
+
+		if (code) {
+			return {
+				status: 'success',
+				message: 'Confirmation email sent',
+			}
+		}
+
+		return {
+			status: 'error',
+			message: 'There was a problem with your request.',
+		}
 	}
 
 	try {
