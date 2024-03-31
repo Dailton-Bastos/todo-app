@@ -10,7 +10,7 @@ type Props = {
 	links: Array<{
 		href: string
 		label: string
-		type: AuthForm
+		type: AuthForm | null
 	}>
 }
 
@@ -18,7 +18,9 @@ export const AuthFooter = ({ links = [] }: Props) => {
 	const { setActiveAuthForm } = useAuthModal()
 
 	const handleClick = React.useCallback(
-		(e: React.MouseEvent<HTMLAnchorElement>, type: AuthForm) => {
+		(e: React.MouseEvent<HTMLAnchorElement>, type: AuthForm | null) => {
+			if (!type) return
+
 			e.preventDefault()
 
 			setActiveAuthForm(type)

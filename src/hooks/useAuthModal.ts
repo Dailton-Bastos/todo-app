@@ -11,7 +11,7 @@ type Store = {
 }
 
 export const useAuthModal = create<Store>((set) => ({
-	isOpen: true,
+	isOpen: false,
 	onOpen: () => set({ isOpen: true }),
 	onClose: () => set({ isOpen: false }),
 	activeAuthForm: 'login',

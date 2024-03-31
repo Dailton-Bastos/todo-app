@@ -13,7 +13,7 @@ type Props = {
 	footerLinks: Array<{
 		href: string
 		label: string
-		type: AuthForm
+		type: AuthForm | null
 	}>
 }
 

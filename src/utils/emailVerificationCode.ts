@@ -11,3 +11,15 @@ export const getEmailVerificationCodeByEmail = async ({
 		return null
 	}
 }
+
+export const getEmailVerificationCodeByCode = async ({
+	code,
+}: {
+	code: string
+}) => {
+	try {
+		return db.emailVerificationCode.findFirst({ where: { code } })
+	} catch {
+		return null
+	}
+}
