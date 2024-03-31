@@ -3,6 +3,7 @@
 import React from 'react'
 
 import { AuthModal } from '@/components/auth/Modal'
+import { TaskModal } from '@/components/tasks/TaskModal'
 
 export const ModalProvider = () => {
 	const [isMounted, setIsMounted] = React.useState(false)
@@ -13,5 +14,10 @@ export const ModalProvider = () => {
 
 	if (!isMounted) return null
 
-	return <AuthModal />
+	return (
+		<React.Fragment>
+			<AuthModal />
+			<TaskModal />
+		</React.Fragment>
+	)
 }

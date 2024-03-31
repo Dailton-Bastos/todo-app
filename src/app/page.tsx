@@ -1,11 +1,13 @@
 import React from 'react'
 
-import { validateRequest } from '@/utils/session'
+import { AllTasks } from '@/components/tasks/All'
 
-const Home = async () => {
-	const { isLoggedIn, user } = await validateRequest()
-
-	return <div className='text-white'>{isLoggedIn && JSON.stringify(user)}</div>
+const Home = () => {
+	return (
+		<section className='w-full pt-8'>
+			<AllTasks />
+		</section>
+	)
 }
 
 export default Home
