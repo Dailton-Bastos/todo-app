@@ -3,6 +3,7 @@
 import { lucia } from '@/auth'
 import { generateEmailVerificationCode } from '@/lib/code'
 import { loginSchema } from '@/schemas'
+import { client } from '@/trigger'
 import { getUserByEmail } from '@/utils/user'
 import * as argon2 from 'argon2'
 import { cookies } from 'next/headers'
@@ -43,6 +44,8 @@ export const login = async (
 		})
 
 		if (code) {
+			await client.invokeJob('email-verification-code', { email, code })
+
 			return {
 				status: 'success',
 				message: 'Confirmation email sent',

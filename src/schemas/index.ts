@@ -26,3 +26,8 @@ export const forgotSchema = z.object({
 		message: 'Email is required',
 	}),
 })
+
+export const emailVerificationCodeSchema = z.object({
+	email: z.string().email(),
+	code: z.string(),
+})
