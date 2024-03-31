@@ -1,8 +1,10 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
+import { register } from '@/actions/register'
 import { CardWrapper } from '@/components/auth/CardWrapper'
 import { PasswordChecklist } from '@/components/auth/PasswordChecklist'
+import { Spin } from '@/components/Spin'
 import { Button } from '@/components/ui/Button'
 import {
 	Form,
@@ -13,7 +15,10 @@ import {
 	FormMessage,
 } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'
+import { ToastAction } from '@/components/ui/Toast'
+import { useAuthModal } from '@/hooks/useAuthModal'
 import { usePasswordChecklist } from '@/hooks/usePasswordChecklist'
+import { useToast } from '@/hooks/useToast'
 import { registerSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -21,6 +26,11 @@ import * as z from 'zod'
 type FormData = z.infer<typeof registerSchema>
 
 export const RegisterForm = () => {
+	const [isPending, startTransition] = React.useTransition()
+
+	const { onClose } = useAuthModal()
+	const { toast } = useToast()
+
 	const form = useForm<FormData>({
 		resolver: zodResolver(registerSchema),
 		reValidateMode: 'onChange',
@@ -30,11 +40,41 @@ export const RegisterForm = () => {
 		},
 	})
 
-	const { control, handleSubmit, watch } = form
+	const { control, handleSubmit, watch, reset } = form
 
-	const onSubmit = React.useCallback((values: FormData) => {
-		return values
-	}, [])
+	const onSubmit = React.useCallback(
+		(values: FormData) => {
+			startTransition(async () => {
+				try {
+					const data = await register(values)
+
+					if (data.status === 'error') {
+						toast({
+							title: 'Oops! Something went wrong.',
+							description: data.message,
+						})
+					}
+
+					if (data.status === 'success') {
+						reset()
+						onClose()
+
+						toast({
+							description: data.message,
+						})
+					}
+				} catch {
+					toast({
+						variant: 'destructive',
+						title: 'Oops! Something went wrong.',
+						description: 'There was a problem with your request.',
+						action: <ToastAction altText='Try again'>Try again</ToastAction>,
+					})
+				}
+			})
+		},
+		[toast, onClose, reset],
+	)
 
 	const { rules, passwordChecked, checkPasswordRules } = usePasswordChecklist()
 
@@ -70,6 +110,7 @@ export const RegisterForm = () => {
 										<Input
 											placeholder='Your email address'
 											className='h-10'
+											disabled={isPending}
 											{...field}
 										/>
 									</FormControl>
@@ -90,6 +131,7 @@ export const RegisterForm = () => {
 											placeholder='Your password'
 											type='password'
 											className='h-10'
+											disabled={isPending}
 											{...field}
 										/>
 									</FormControl>
@@ -103,8 +145,9 @@ export const RegisterForm = () => {
 					<Button
 						type='submit'
 						className='w-full h-10'
-						disabled={!passwordChecked}
+						disabled={!passwordChecked || isPending}
 					>
+						{isPending && <Spin />}
 						Sign up
 					</Button>
 				</form>
