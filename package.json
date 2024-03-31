@@ -20,7 +20,9 @@
 		"test:watch": "jest --watch",
 		"storybook": "storybook dev --no-open -p 6006",
 		"build-storybook": "storybook build",
-		"postinstall": "prisma generate"
+		"postinstall": "prisma generate",
+		"email-preview": "email dev --dir src/components/emails",
+		"trigger": "pnpm dlx @trigger.dev/cli@latest dev"
 	},
 	"prisma": {
 		"seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} src/lib/seed.ts"
@@ -36,6 +38,11 @@
 		"@radix-ui/react-slot": "^1.0.2",
 		"@radix-ui/react-switch": "^1.0.3",
 		"@radix-ui/react-toast": "^1.1.5",
+		"@react-email/components": "0.0.16",
+		"@react-email/render": "^0.0.12",
+		"@trigger.dev/nextjs": "^2.3.18",
+		"@trigger.dev/react": "^2.3.18",
+		"@trigger.dev/sdk": "^2.3.18",
 		"argon2": "^0.40.1",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.0",
@@ -45,15 +52,13 @@
 		"oslo": "^1.2.0",
 		"react": "^18",
 		"react-dom": "^18",
+		"react-email": "^2.1.1",
 		"react-hook-form": "^7.51.1",
 		"react-icons": "^5.0.1",
 		"tailwind-merge": "^2.2.1",
 		"tailwindcss-animate": "^1.0.7",
 		"zod": "^3.22.4",
-		"zustand": "^4.5.2",
-		"@trigger.dev/sdk": "^2.3.18",
-		"@trigger.dev/nextjs": "^2.3.18",
-		"@trigger.dev/react": "^2.3.18"
+		"zustand": "^4.5.2"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^1.2.12",
