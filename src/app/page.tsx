@@ -3,11 +3,9 @@ import React from 'react'
 import { validateRequest } from '@/utils/session'
 
 const Home = async () => {
-	const { isLoggedIn } = await validateRequest()
+	const { isLoggedIn, user } = await validateRequest()
 
-	return (
-		<div>isLoggedIn: {isLoggedIn ? 'User loggedIn' : 'User not loggedIn'}</div>
-	)
+	return <div className='text-white'>{isLoggedIn && JSON.stringify(user)}</div>
 }
 
 export default Home
