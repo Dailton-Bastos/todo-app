@@ -31,3 +31,9 @@ export const emailVerificationCodeSchema = z.object({
 	email: z.string().email(),
 	code: z.string(),
 })
+
+export const resetPasswordSchema = z.object({
+	email: z.string().email({
+		message: 'Email is required',
+	}),
+})

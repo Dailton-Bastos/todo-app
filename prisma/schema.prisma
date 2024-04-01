@@ -20,6 +20,7 @@ model User {
   password              String
   Session               Session[]
   EmailVerificationCode EmailVerificationCode[]
+  PasswordResetToken    PasswordResetToken[]
 }
 
 model Session {
@@ -34,6 +35,14 @@ model EmailVerificationCode {
   code      String
   userId    String
   email     String
+  expiresAt DateTime
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  tokenHash String
+  userId    String
   expiresAt DateTime
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
