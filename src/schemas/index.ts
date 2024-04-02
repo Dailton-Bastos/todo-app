@@ -37,3 +37,18 @@ export const resetPasswordSchema = z.object({
 		message: 'Email is required',
 	}),
 })
+
+export const newPasswordSchema = z
+	.object({
+		password: z.string().min(8).regex(passwordValidation),
+		confirmPassword: z.string(),
+	})
+	.refine(
+		(data) => {
+			return data.password === data.confirmPassword
+		},
+		{
+			message: 'Passwords does not match',
+			path: ['confirmPassword'],
+		},
+	)

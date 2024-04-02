@@ -2,3 +2,4 @@
 
 export * from './emailVerificationCode'
 export * from './resetPasswordToken'
+export * from './notifyPasswordUpdated'
