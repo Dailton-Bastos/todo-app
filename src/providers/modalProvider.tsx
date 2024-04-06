@@ -4,6 +4,7 @@ import React from 'react'
 
 import { AuthModal } from '@/components/auth/Modal'
 import { TaskModal } from '@/components/tasks/TaskModal'
+import { Modal2FA } from '@/components/two-factor-authorization/Modal2FA'
 
 export const ModalProvider = () => {
 	const [isMounted, setIsMounted] = React.useState(false)
@@ -18,6 +19,7 @@ export const ModalProvider = () => {
 		<React.Fragment>
 			<AuthModal />
 			<TaskModal />
+			<Modal2FA />
 		</React.Fragment>
 	)
 }

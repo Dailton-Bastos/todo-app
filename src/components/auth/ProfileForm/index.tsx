@@ -17,6 +17,7 @@ import {
 import { Input } from '@/components/ui/Input'
 import { Switch } from '@/components/ui/Switch'
 import { ToastAction } from '@/components/ui/Toast'
+import { use2FAModal } from '@/hooks/use2FAModal'
 import { useToast } from '@/hooks/useToast'
 import { profileSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -31,6 +32,7 @@ export const ProfileForm = ({ user }: Props) => {
 	const [isPending, startTransition] = React.useTransition()
 
 	const { toast } = useToast()
+	const { setTwoFactorUri, onOpen } = use2FAModal()
 
 	const form = useForm<z.infer<typeof profileSchema>>({
 		resolver: zodResolver(profileSchema),
@@ -44,6 +46,10 @@ export const ProfileForm = ({ user }: Props) => {
 	})
 
 	const { control, handleSubmit } = form
+
+	const handleOpen2FAModal = React.useCallback(() => {
+		onOpen()
+	}, [onOpen])
 
 	const onSubmit = React.useCallback(
 		(values: z.infer<typeof profileSchema>) => {
@@ -63,6 +69,12 @@ export const ProfileForm = ({ user }: Props) => {
 							description: data.message,
 						})
 					}
+
+					if (data.status === 'success' && data.twoFactorUri) {
+						setTwoFactorUri(data.twoFactorUri)
+
+						handleOpen2FAModal()
+					}
 				} catch {
 					toast({
 						variant: 'destructive',
@@ -73,7 +85,7 @@ export const ProfileForm = ({ user }: Props) => {
 				}
 			})
 		},
-		[toast],
+		[toast, setTwoFactorUri, handleOpen2FAModal],
 	)
 
 	return (
