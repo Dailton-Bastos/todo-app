@@ -52,6 +52,8 @@ export const verifyVerificationEmailCode = async ({
 			where: { id: existingCode.id },
 		})
 
+		await lucia.invalidateUserSessions(existingCode.userId)
+
 		const session = await lucia.createSession(existingCode.userId, {})
 
 		const sessionCookie = lucia.createSessionCookie(session.id)

@@ -52,3 +52,9 @@ export const newPasswordSchema = z
 			path: ['confirmPassword'],
 		},
 	)
+
+export const profileSchema = z.object({
+	name: z.optional(z.string()),
+	email: z.optional(z.string().email()),
+	imageUrl: z.optional(z.string()),
+})

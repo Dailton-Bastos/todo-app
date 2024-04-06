@@ -18,6 +18,8 @@ model User {
   email                 String                  @unique
   emailVerified         DateTime?
   password              String
+  name                  String?
+  image                 String?
   Session               Session[]
   EmailVerificationCode EmailVerificationCode[]
   PasswordResetToken    PasswordResetToken[]
