@@ -17,6 +17,9 @@ export const lucia = new Lucia(adapter, {
 			emailVerified: attributes.email_verified,
 			name: attributes.name,
 			image: attributes.image,
+			// don't expose the secret
+			// rather expose whether if the user has setup 2fa
+			setupTwoFactor: attributes.two_factor_secret !== null,
 		}
 	},
 })
@@ -30,6 +33,7 @@ declare module 'lucia' {
 			email_verified: Date
 			name?: string
 			image?: string
+			two_factor_secret: string | null
 		}
 	}
 }

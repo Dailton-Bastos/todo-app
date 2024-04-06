@@ -57,4 +57,5 @@ export const profileSchema = z.object({
 	name: z.optional(z.string()),
 	email: z.optional(z.string().email()),
 	imageUrl: z.optional(z.string()),
+	isTwoFactorEnabled: z.optional(z.boolean()),
 })

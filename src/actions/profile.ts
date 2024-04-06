@@ -8,11 +8,14 @@ import { client } from '@/trigger'
 import { validateRequest } from '@/utils/session'
 import { getUserById, getUserByEmail } from '@/utils/user'
 import { cookies } from 'next/headers'
+import { encodeHex } from 'oslo/encoding'
+import { createTOTPKeyURI } from 'oslo/otp'
 import * as z from 'zod'
 
 type ActionResult = {
 	status: 'error' | 'success'
 	message: string | null
+	twoFactorUri?: string
 }
 
 export const profile = async (
@@ -24,7 +27,7 @@ export const profile = async (
 		return { status: 'error', message: 'Invalid email or password' }
 	}
 
-	const { email, name, imageUrl } = validatedFields.data
+	const { email, name, imageUrl, isTwoFactorEnabled } = validatedFields.data
 
 	try {
 		const { user: currentUser } = await validateRequest()
@@ -60,6 +63,9 @@ export const profile = async (
 			}
 		}
 
+		// Generate a new secret (minimum 20 bytes) and create a new key URI with createTOTPKeyURI()
+		const twoFactorSecret = crypto.getRandomValues(new Uint8Array(20))
+
 		const updatedUser = await db.user.update({
 			where: { id: currentUser.id },
 			data: {
@@ -67,8 +73,20 @@ export const profile = async (
 				name,
 				image: imageUrl,
 				emailVerified: emailUpdated ? null : undefined,
+				twoFactorSecret: isTwoFactorEnabled
+					? encodeHex(twoFactorSecret)
+					: undefined,
 			},
 		})
+
+		let twoFactorUri = undefined
+
+		if (isTwoFactorEnabled) {
+			// pass the website's name and the user identifier (e.g. email, username)
+			const uri = createTOTPKeyURI('Todo', updatedUser.email, twoFactorSecret)
+
+			twoFactorUri = uri
+		}
 
 		await lucia.invalidateUserSessions(updatedUser.id)
 		const session = await lucia.createSession(updatedUser.id, {})
@@ -80,8 +98,8 @@ export const profile = async (
 			sessionCookie.attributes,
 		)
 
-		return { status: 'success', message: 'Settings updated' }
-	} catch {
+		return { status: 'success', message: 'Settings updated', twoFactorUri }
+	} catch (e) {
 		return { status: 'error', message: 'Oops, something went wrong!' }
 	}
 }

@@ -36,6 +36,7 @@ export const register = async (
 		data: {
 			email,
 			password: hashedPassword,
+			twoFactorSecret: null,
 		},
 	})
 

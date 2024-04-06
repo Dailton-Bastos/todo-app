@@ -20,6 +20,7 @@ model User {
   password              String
   name                  String?
   image                 String?
+  twoFactorSecret       String?
   Session               Session[]
   EmailVerificationCode EmailVerificationCode[]
   PasswordResetToken    PasswordResetToken[]

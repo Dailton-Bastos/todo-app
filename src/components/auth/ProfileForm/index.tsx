@@ -15,6 +15,7 @@ import {
 	FormMessage,
 } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'
+import { Switch } from '@/components/ui/Switch'
 import { ToastAction } from '@/components/ui/Toast'
 import { useToast } from '@/hooks/useToast'
 import { profileSchema } from '@/schemas'
@@ -38,6 +39,7 @@ export const ProfileForm = ({ user }: Props) => {
 			email: user.email || undefined,
 			name: user.name || undefined,
 			imageUrl: user.image || undefined,
+			isTwoFactorEnabled: user.setupTwoFactor || undefined,
 		},
 	})
 
@@ -145,7 +147,27 @@ export const ProfileForm = ({ user }: Props) => {
 						)}
 					/>
 
-					<div className='w-full flex items-center justify-between'>
+					<FormField
+						control={control}
+						name='isTwoFactorEnabled'
+						render={({ field }) => (
+							<FormItem className='flex items-center justify-start gap-x-2'>
+								<FormLabel className='text-white pt-2'>
+									Two Factor Authorization
+								</FormLabel>
+								<FormControl>
+									<Switch
+										disabled={isPending}
+										checked={field.value}
+										onCheckedChange={field.onChange}
+										className='mt-0'
+									/>
+								</FormControl>
+							</FormItem>
+						)}
+					/>
+
+					<div className='w-full flex items-center justify-between pt-4'>
 						<Button type='submit' className='h-10 min-w-40' variant='outline'>
 							{isPending && <Spin />}
 							Save profile
