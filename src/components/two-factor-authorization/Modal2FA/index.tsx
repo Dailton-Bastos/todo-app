@@ -32,7 +32,7 @@ export const Modal2FA = () => {
 						</p>
 					</div>
 
-					<div className='flex items-center justify-center px-2 py-4 bg-white'>
+					<div className='flex items-center justify-center px-2 py-6 bg-white'>
 						<QRCode value={twoFactorUri} size={156} />
 					</div>
 

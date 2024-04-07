@@ -59,3 +59,9 @@ export const profileSchema = z.object({
 	imageUrl: z.optional(z.string()),
 	isTwoFactorEnabled: z.optional(z.boolean()),
 })
+
+export const twoFactorAuthorizationSchema = z.object({
+	code: z.string().min(1, {
+		message: 'Two-factor authorization code is riquired',
+	}),
+})
