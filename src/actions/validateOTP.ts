@@ -4,6 +4,7 @@ import { lucia } from '@/auth'
 import { db } from '@/config/db'
 import { getUserById } from '@/utils/user'
 import { cookies } from 'next/headers'
+import { TimeSpan } from 'oslo'
 import { decodeHex } from 'oslo/encoding'
 import { TOTPController } from 'oslo/otp'
 
@@ -36,7 +37,9 @@ export const validateOTP = async ({
 			return { status: 'error', message: 'Unauthorized' }
 		}
 
-		const totpController = new TOTPController()
+		const period = new TimeSpan(30, 's') // 30 seconds
+
+		const totpController = new TOTPController({ digits: 6, period })
 
 		const validOTP = await totpController.verify(
 			otp,

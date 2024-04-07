@@ -1,5 +1,6 @@
 'use server'
 
+import { validateOTP } from '@/actions/validateOTP'
 import { lucia } from '@/auth'
 import { generateEmailVerificationCode } from '@/lib/code'
 import { loginSchema } from '@/schemas'
@@ -12,6 +13,7 @@ import * as z from 'zod'
 type ActionResult = {
 	status: 'error' | 'success'
 	message: string | null
+	isTwofactorEnabled?: boolean
 }
 
 export const login = async (
@@ -23,7 +25,7 @@ export const login = async (
 		return { status: 'error', message: 'Invalid email or password' }
 	}
 
-	const { email, password } = validatedFields.data
+	const { email, password, code } = validatedFields.data
 
 	const existingUser = await getUserByEmail({ email })
 
@@ -56,6 +58,17 @@ export const login = async (
 			status: 'error',
 			message: 'There was a problem with your request.',
 		}
+	}
+
+	if (existingUser.isTwoFactorEnabled) {
+		if (!code)
+			return {
+				status: 'error',
+				message: 'Unauthorized',
+				isTwofactorEnabled: true,
+			}
+
+		return validateOTP({ otp: code, userId: existingUser.id })
 	}
 
 	try {

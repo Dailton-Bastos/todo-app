@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import OtpInput from 'react-otp-input'
 
 import { login } from '@/actions/login'
 import { CardWrapper } from '@/components/auth/CardWrapper'
@@ -24,6 +25,8 @@ import * as z from 'zod'
 type FormData = z.infer<typeof loginSchema>
 
 export const LoginForm = () => {
+	const [showTwoFactor, setShowTwoFactor] = React.useState(false)
+
 	const [isPending, startTransition] = React.useTransition()
 
 	const { onClose } = useAuthModal()
@@ -35,6 +38,7 @@ export const LoginForm = () => {
 		defaultValues: {
 			email: '',
 			password: '',
+			code: '',
 		},
 	})
 
@@ -46,7 +50,7 @@ export const LoginForm = () => {
 				try {
 					const data = await login(values)
 
-					if (data.status === 'error') {
+					if (data.status === 'error' && !data.isTwofactorEnabled) {
 						toast({
 							title: 'Oops! Something went wrong.',
 							description: data.message,
@@ -56,9 +60,20 @@ export const LoginForm = () => {
 					if (data.status === 'success') {
 						reset()
 						onClose()
+						setShowTwoFactor(false)
+
+						if (data.message) {
+							toast({
+								description: data.message,
+							})
+						}
+					}
+
+					if (data.status === 'error' && data.isTwofactorEnabled) {
+						setShowTwoFactor(true)
 
 						toast({
-							description: data.message,
+							description: 'Enter the generated OTP code',
 						})
 					}
 				} catch {
@@ -135,11 +150,48 @@ export const LoginForm = () => {
 								</FormItem>
 							)}
 						/>
+
+						{showTwoFactor && (
+							<FormField
+								control={control}
+								name='code'
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Two Factor Code</FormLabel>
+										<FormControl>
+											<OtpInput
+												value={field.value}
+												onChange={field.onChange}
+												numInputs={6}
+												renderSeparator={<span style={{ width: '4px' }}></span>}
+												shouldAutoFocus={true}
+												containerStyle='flex items-center justify-between p-2'
+												inputStyle={{
+													borderRadius: '8px',
+													width: '54px',
+													height: '54px',
+													fontSize: '16px',
+													color: '#000',
+													fontWeight: '700',
+													caretColor: '#222',
+												}}
+												renderInput={(props) => (
+													<Input {...props} disabled={isPending} />
+												)}
+											/>
+										</FormControl>
+
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						)}
 					</div>
 
 					<Button type='submit' className='w-full h-10' disabled={isPending}>
 						{isPending && <Spin />}
-						Sign in
+
+						{showTwoFactor ? 'Confirm' : 'Sign in'}
 					</Button>
 				</form>
 			</Form>
