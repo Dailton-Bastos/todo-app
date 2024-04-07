@@ -19,7 +19,7 @@ export const lucia = new Lucia(adapter, {
 			image: attributes.image,
 			// don't expose the secret
 			// rather expose whether if the user has setup 2fa
-			setupTwoFactor: attributes.two_factor_secret !== null,
+			isTwoFactorEnabled: attributes.is_two_factor_enabled,
 		}
 	},
 })
@@ -33,7 +33,7 @@ declare module 'lucia' {
 			email_verified: Date
 			name?: string
 			image?: string
-			two_factor_secret: string | null
+			is_two_factor_enabled: boolean
 		}
 	}
 }

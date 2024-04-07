@@ -1,6 +1,9 @@
 'use server'
 
+import { lucia } from '@/auth'
+import { db } from '@/config/db'
 import { getUserById } from '@/utils/user'
+import { cookies } from 'next/headers'
 import { decodeHex } from 'oslo/encoding'
 import { TOTPController } from 'oslo/otp'
 
@@ -41,6 +44,27 @@ export const validateOTP = async ({
 		)
 
 		if (validOTP) {
+			const isTwoFactorEnabled = existingUser.isTwoFactorEnabled
+				? undefined
+				: true
+
+			const updateUser = await db.user.update({
+				where: { id: existingUser.id },
+				data: {
+					isTwoFactorEnabled,
+				},
+			})
+
+			await lucia.invalidateUserSessions(updateUser.id)
+			const session = await lucia.createSession(updateUser.id, {})
+			const sessionCookie = lucia.createSessionCookie(session.id)
+
+			cookies().set(
+				sessionCookie.name,
+				sessionCookie.value,
+				sessionCookie.attributes,
+			)
+
 			return {
 				status: 'success',
 				message: null,

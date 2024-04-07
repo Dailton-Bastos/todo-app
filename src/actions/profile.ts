@@ -71,17 +71,16 @@ export const profile = async (
 			data: {
 				email,
 				name,
-				image: imageUrl,
+				image: imageUrl ? imageUrl : null,
 				emailVerified: emailUpdated ? null : undefined,
-				twoFactorSecret: isTwoFactorEnabled
-					? encodeHex(twoFactorSecret)
-					: undefined,
+				twoFactorSecret: isTwoFactorEnabled ? encodeHex(twoFactorSecret) : null,
+				isTwoFactorEnabled: isTwoFactorEnabled === false ? false : undefined,
 			},
 		})
 
 		let twoFactorUri = undefined
 
-		if (isTwoFactorEnabled) {
+		if (isTwoFactorEnabled && !user.isTwoFactorEnabled) {
 			// pass the website's name and the user identifier (e.g. email, username)
 			const uri = createTOTPKeyURI('Todo', updatedUser.email, twoFactorSecret)
 

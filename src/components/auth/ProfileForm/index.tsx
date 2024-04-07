@@ -41,7 +41,7 @@ export const ProfileForm = ({ user }: Props) => {
 			email: user.email || undefined,
 			name: user.name || undefined,
 			imageUrl: user.image || undefined,
-			isTwoFactorEnabled: user.setupTwoFactor || undefined,
+			isTwoFactorEnabled: user.isTwoFactorEnabled || undefined,
 		},
 	})
 
