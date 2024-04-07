@@ -14,12 +14,12 @@ export const lucia = new Lucia(adapter, {
 	getUserAttributes: (attributes) => {
 		return {
 			email: attributes.email,
-			emailVerified: attributes.email_verified,
+			emailVerified: attributes.emailVerified,
 			name: attributes.name,
 			image: attributes.image,
 			// don't expose the secret
 			// rather expose whether if the user has setup 2fa
-			isTwoFactorEnabled: attributes.is_two_factor_enabled,
+			isTwoFactorEnabled: attributes.isTwoFactorEnabled,
 		}
 	},
 })
@@ -30,10 +30,10 @@ declare module 'lucia' {
 		Lucia: typeof lucia
 		DatabaseUserAttributes: {
 			email: string
-			email_verified: Date
+			emailVerified: Date
 			name?: string
 			image?: string
-			is_two_factor_enabled: boolean
+			isTwoFactorEnabled: boolean
 		}
 	}
 }
