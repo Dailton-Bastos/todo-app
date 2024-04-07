@@ -134,6 +134,7 @@ export const Form2FA = () => {
 						className='h-10 min-w-40'
 						variant='destructive'
 						disabled={isPending}
+						onClick={onClose}
 					>
 						Cancel
 					</Button>

@@ -6,6 +6,8 @@ type Store = {
 	onClose: () => void
 	twoFactorUri: string
 	setTwoFactorUri: (twoFactorUri: string) => void
+	twoFactorCode: string
+	setTwoFactorCode: (twoFactorCode: string) => void
 }
 
 export const use2FAModal = create<Store>((set) => ({
@@ -14,4 +16,6 @@ export const use2FAModal = create<Store>((set) => ({
 	onClose: () => set({ isOpen: false }),
 	twoFactorUri: '',
 	setTwoFactorUri: (twoFactorUri: string) => set({ twoFactorUri }),
+	twoFactorCode: '',
+	setTwoFactorCode: (twoFactorCode: string) => set({ twoFactorCode }),
 }))

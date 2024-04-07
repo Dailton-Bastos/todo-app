@@ -32,7 +32,7 @@ export const ProfileForm = ({ user }: Props) => {
 	const [isPending, startTransition] = React.useTransition()
 
 	const { toast } = useToast()
-	const { setTwoFactorUri, onOpen } = use2FAModal()
+	const { setTwoFactorUri, onOpen, setTwoFactorCode } = use2FAModal()
 
 	const form = useForm<z.infer<typeof profileSchema>>({
 		resolver: zodResolver(profileSchema),
@@ -70,6 +70,10 @@ export const ProfileForm = ({ user }: Props) => {
 						})
 					}
 
+					if (data.status === 'success' && data.twoFactorCode) {
+						setTwoFactorCode(data.twoFactorCode)
+					}
+
 					if (data.status === 'success' && data.twoFactorUri) {
 						setTwoFactorUri(data.twoFactorUri)
 
@@ -85,7 +89,7 @@ export const ProfileForm = ({ user }: Props) => {
 				}
 			})
 		},
-		[toast, setTwoFactorUri, handleOpen2FAModal],
+		[toast, setTwoFactorUri, setTwoFactorCode, handleOpen2FAModal],
 	)
 
 	return (

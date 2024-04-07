@@ -7,7 +7,7 @@ import { use2FAModal } from '@/hooks/use2FAModal'
 import { Form2FA } from '../Form2FA'
 
 export const Modal2FA = () => {
-	const { isOpen, onClose, twoFactorUri } = use2FAModal()
+	const { isOpen, onClose, twoFactorUri, twoFactorCode } = use2FAModal()
 
 	const onChange = React.useCallback(
 		(open: boolean) => {
@@ -35,6 +35,20 @@ export const Modal2FA = () => {
 					<div className='flex items-center justify-center px-2 py-6 bg-white'>
 						<QRCode value={twoFactorUri} size={156} />
 					</div>
+
+					{twoFactorCode && (
+						<div className='w-full pb-4'>
+							<p className='text-center text-sm text-gray-600'>
+								If you can&apos;t use QR code,{' '}
+								<span className='font-semibold'>enter text code bellow</span>{' '}
+								instead.
+							</p>
+
+							<p className='text-center text-sm text-gray-600 py-2'>
+								{twoFactorCode}
+							</p>
+						</div>
+					)}
 
 					<Form2FA />
 				</div>

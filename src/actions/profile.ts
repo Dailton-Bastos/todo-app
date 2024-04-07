@@ -7,6 +7,7 @@ import { profileSchema } from '@/schemas'
 import { client } from '@/trigger'
 import { validateRequest } from '@/utils/session'
 import { getUserById, getUserByEmail } from '@/utils/user'
+import base32Encode from 'base32-encode'
 import { cookies } from 'next/headers'
 import { encodeHex } from 'oslo/encoding'
 import { createTOTPKeyURI } from 'oslo/otp'
@@ -16,6 +17,7 @@ type ActionResult = {
 	status: 'error' | 'success'
 	message: string | null
 	twoFactorUri?: string
+	twoFactorCode?: string
 }
 
 export const profile = async (
@@ -79,10 +81,14 @@ export const profile = async (
 		})
 
 		let twoFactorUri = undefined
+		let twoFactorCode = undefined
 
 		if (isTwoFactorEnabled && !user.isTwoFactorEnabled) {
 			// pass the website's name and the user identifier (e.g. email, username)
 			const uri = createTOTPKeyURI('Todo', updatedUser.email, twoFactorSecret)
+
+			// Encode the data in twoFactorSecret into a Base32 encoded string
+			twoFactorCode = base32Encode(twoFactorSecret, 'RFC4648')
 
 			twoFactorUri = uri
 		}
@@ -97,7 +103,12 @@ export const profile = async (
 			sessionCookie.attributes,
 		)
 
-		return { status: 'success', message: 'Settings updated', twoFactorUri }
+		return {
+			status: 'success',
+			message: 'Settings updated',
+			twoFactorUri,
+			twoFactorCode,
+		}
 	} catch (e) {
 		return { status: 'error', message: 'Oops, something went wrong!' }
 	}
