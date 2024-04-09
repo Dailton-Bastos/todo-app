@@ -25,6 +25,7 @@ model User {
   Session               Session[]
   EmailVerificationCode EmailVerificationCode[]
   PasswordResetToken    PasswordResetToken[]
+  Task                  Task[]
 }
 
 model Session {
@@ -49,4 +50,15 @@ model PasswordResetToken {
   userId    String
   expiresAt DateTime
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  date        DateTime
+  isCompleted Boolean  @default(false)
+  isImportant Boolean  @default(false)
+  userId      String
+  user        User     @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
