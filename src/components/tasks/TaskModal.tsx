@@ -2,8 +2,15 @@
 
 import React from 'react'
 
-import { Dialog, DialogContent } from '@/components/ui/Dialog'
+import {
+	Dialog,
+	DialogContent,
+	DialogTitle,
+	DialogHeader,
+} from '@/components/ui/Dialog'
 import { useTaskModal } from '@/hooks/useTaskModal'
+
+import { TasksForm } from './TasksForm'
 
 export const TaskModal = () => {
 	const { isOpen, onClose } = useTaskModal()
@@ -17,7 +24,13 @@ export const TaskModal = () => {
 
 	return (
 		<Dialog open={isOpen} defaultOpen={isOpen} onOpenChange={onChange}>
-			<DialogContent>TASK MODAL</DialogContent>
+			<DialogContent>
+				<DialogHeader>
+					<DialogTitle>Create a Task</DialogTitle>
+				</DialogHeader>
+
+				<TasksForm />
+			</DialogContent>
 		</Dialog>
 	)
 }

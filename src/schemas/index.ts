@@ -66,3 +66,15 @@ export const twoFactorAuthorizationSchema = z.object({
 		message: 'Two-factor authorization code is riquired',
 	}),
 })
+
+export const taskSchema = z.object({
+	title: z.string().min(3, {
+		message: 'Minimum 3 characters',
+	}),
+	description: z.string().min(5, {
+		message: 'Minimum 5 characters',
+	}),
+	date: z.date(),
+	isCompleted: z.boolean().default(false).optional(),
+	isImportant: z.boolean().default(false).optional(),
+})
