@@ -17,6 +17,7 @@ export type TaskState = {
 }
 
 export type TaskActions = {
+	tasks: Task[]
 	addTask: (task: Task) => void
 }
 
@@ -34,10 +35,11 @@ export const createTaskStore = (initState: TaskState = defaultInitState) => {
 	return createStore<TaskStore>()(
 		immer((set) => ({
 			...initState,
+			tasks: initState.data,
 			addTask: (task: Task) => {
 				set(
-					produce((draft: Draft<TaskState>) => {
-						draft.data.unshift(task)
+					produce((draft: Draft<TaskStore>) => {
+						draft.tasks.unshift(task)
 					}),
 				)
 			},
