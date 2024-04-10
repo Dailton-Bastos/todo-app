@@ -65,6 +65,9 @@ dependencies:
   clsx:
     specifier: ^2.1.0
     version: 2.1.0
+  immer:
+    specifier: ^10.0.4
+    version: 10.0.4
   lucia:
     specifier: ^3.1.1
     version: 3.1.1
@@ -112,7 +115,7 @@ dependencies:
     version: 3.22.4
   zustand:
     specifier: ^4.5.2
-    version: 4.5.2(@types/react@18.2.64)(react@18.2.0)
+    version: 4.5.2(@types/react@18.2.64)(immer@10.0.4)(react@18.2.0)
 
 devDependencies:
   '@chromatic-com/storybook':
@@ -10472,6 +10475,10 @@ packages:
       queue: 6.0.2
     dev: true
 
+  /immer@10.0.4:
+    resolution: {integrity: sha512-cuBuGK40P/sk5IzWa9QPUaAdvPHjkk1c+xYsd9oZw+YQQEV+10G0P5uMpGctZZKnyQ+ibRO08bD25nWLmYi2pw==}
+    dev: false
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -15807,7 +15814,7 @@ packages:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
     dev: false
 
-  /zustand@4.5.2(@types/react@18.2.64)(react@18.2.0):
+  /zustand@4.5.2(@types/react@18.2.64)(immer@10.0.4)(react@18.2.0):
     resolution: {integrity: sha512-2cN1tPkDVkwCy5ickKrI7vijSjPksFRfqS6237NzT0vqSsztTNnQdHw9mmN7uBdk3gceVXU0a+21jFzFzAc9+g==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
@@ -15823,6 +15830,7 @@ packages:
         optional: true
     dependencies:
       '@types/react': 18.2.64
+      immer: 10.0.4
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false

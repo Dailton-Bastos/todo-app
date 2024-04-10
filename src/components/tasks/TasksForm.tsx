@@ -19,6 +19,7 @@ import { Textarea } from '@/components/ui/Textarea'
 import { ToastAction } from '@/components/ui/Toast'
 import { useTaskModal } from '@/hooks/useTaskModal'
 import { useToast } from '@/hooks/useToast'
+import { useTaskStore } from '@/providers/taskStoreProvider'
 import { taskSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -31,6 +32,8 @@ export const TasksForm = () => {
 	const { toast } = useToast()
 
 	const { onClose } = useTaskModal()
+
+	const { addTask } = useTaskStore((state) => state)
 
 	const form = useForm<z.infer<typeof taskSchema>>({
 		resolver: zodResolver(taskSchema),
@@ -59,8 +62,11 @@ export const TasksForm = () => {
 						})
 					}
 
-					if (data.status === 'success') {
+					if (data.status === 'success' && data.task) {
+						addTask(data.task)
+
 						reset()
+
 						onClose()
 
 						toast({
@@ -77,7 +83,7 @@ export const TasksForm = () => {
 				}
 			})
 		},
-		[reset, onClose, toast],
+		[reset, onClose, toast, addTask],
 	)
 
 	return (

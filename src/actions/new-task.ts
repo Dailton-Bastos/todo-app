@@ -5,9 +5,20 @@ import { taskSchema } from '@/schemas'
 import { validateRequest } from '@/utils/session'
 import * as z from 'zod'
 
+export type Task = {
+	id: string
+	title: string
+	description: string
+	date: Date
+	isCompleted: boolean
+	isImportant: boolean
+	userId: string
+}
+
 type ActionResult = {
 	status: 'error' | 'success'
 	message: string | null
+	task: Task | null
 }
 
 export const newTask = async (
@@ -16,7 +27,7 @@ export const newTask = async (
 	const validatedFields = taskSchema.safeParse(values)
 
 	if (!validatedFields.success) {
-		return { status: 'error', message: 'Invalid fields' }
+		return { status: 'error', message: 'Invalid fields', task: null }
 	}
 
 	const { title, description, date, isCompleted, isImportant } =
@@ -25,9 +36,9 @@ export const newTask = async (
 	try {
 		const { user } = await validateRequest()
 
-		if (!user) return { status: 'error', message: 'Unauthorized' }
+		if (!user) return { status: 'error', message: 'Unauthorized', task: null }
 
-		await db.task.create({
+		const task = await db.task.create({
 			data: {
 				title,
 				description,
@@ -38,8 +49,12 @@ export const newTask = async (
 			},
 		})
 
-		return { status: 'success', message: 'Task created' }
+		return { status: 'success', message: 'Task created', task }
 	} catch (error) {
-		return { status: 'error', message: 'Oops, something went wrong!' }
+		return {
+			status: 'error',
+			message: 'Oops, something went wrong!',
+			task: null,
+		}
 	}
 }
