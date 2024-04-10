@@ -5,6 +5,7 @@ import React from 'react'
 import { useTaskStore } from '@/providers/taskStoreProvider'
 
 import { NewTaskButton } from './NewTaskButton'
+import { Task } from './Task'
 
 export const CompletedTasks = () => {
 	const { tasks } = useTaskStore((state) => state)
@@ -17,10 +18,7 @@ export const CompletedTasks = () => {
 		<div className='w-full pt-10'>
 			<ul className='grid grid-cols-4 gap-8'>
 				{completedTasks.map((task) => (
-					<li key={task.id} className='text-white'>
-						<h2>{task.title}</h2>
-						<p>{task.description}</p>
-					</li>
+					<Task key={task.id} task={task} />
 				))}
 
 				<NewTaskButton />

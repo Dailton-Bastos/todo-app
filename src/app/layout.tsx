@@ -42,7 +42,7 @@ export default async function RootLayout({
 								</div>
 
 								<main className='h-full flex-1 py-2 pr-2'>
-									<Box className='w-full h-full rounded-lg overflow-hidden border-none py-10 px-8'>
+									<Box className='w-full h-full rounded-lg overflow-auto border-none py-10 px-8'>
 										{children}
 									</Box>
 								</main>
