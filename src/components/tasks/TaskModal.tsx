@@ -11,9 +11,10 @@ import {
 import { useTaskModal } from '@/hooks/useTaskModal'
 
 import { TasksForm } from './TasksForm'
+import { UpdateTaskForm } from './UpdateTaskForm'
 
 export const TaskModal = () => {
-	const { isOpen, onClose } = useTaskModal()
+	const { isOpen, onClose, activeForm } = useTaskModal()
 
 	const onChange = React.useCallback(
 		(open: boolean) => {
@@ -26,10 +27,14 @@ export const TaskModal = () => {
 		<Dialog open={isOpen} defaultOpen={isOpen} onOpenChange={onChange}>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Create a Task</DialogTitle>
+					<DialogTitle>
+						{activeForm === 'create' ? 'Create a Task' : 'Update Task'}
+					</DialogTitle>
 				</DialogHeader>
 
-				<TasksForm />
+				{activeForm === 'create' && <TasksForm />}
+
+				{activeForm === 'update' && <UpdateTaskForm />}
 			</DialogContent>
 		</Dialog>
 	)
