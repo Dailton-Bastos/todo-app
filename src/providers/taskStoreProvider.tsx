@@ -10,6 +10,8 @@ import {
 } from '@/stores/task-store'
 import { type StoreApi, useStore } from 'zustand'
 
+import { useSession } from './sessionProvider'
+
 type TaskStoreProviderProps = {
 	children: React.ReactNode
 	data: Task[]
@@ -25,9 +27,11 @@ export const TaskStoreProvider = ({
 }: TaskStoreProviderProps) => {
 	const storeRef = React.useRef<StoreApi<TaskStore>>()
 
-	if (!storeRef.current) {
-		storeRef.current = createTaskStore(initTaskStore({ data }))
-	}
+	const { user } = useSession()
+
+	const tasks = user ? data : []
+
+	storeRef.current = createTaskStore(initTaskStore({ data: tasks }))
 
 	return (
 		<TaskStoreContext.Provider value={storeRef.current}>
