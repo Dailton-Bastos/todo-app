@@ -19,6 +19,7 @@ export type TaskState = {
 export type TaskActions = {
 	tasks: Task[]
 	addTask: (task: Task) => void
+	deleteTask: ({ id }: { id: string }) => void
 }
 
 export type TaskStore = TaskState & TaskActions
@@ -40,6 +41,15 @@ export const createTaskStore = (initState: TaskState = defaultInitState) => {
 				set(
 					produce((draft: Draft<TaskStore>) => {
 						draft.tasks.unshift(task)
+					}),
+				)
+			},
+			deleteTask: ({ id }: { id: string }) => {
+				set(
+					produce((draft: Draft<TaskStore>) => {
+						const index = draft.tasks.findIndex((task) => task.id === id)
+
+						if (index !== -1) draft.tasks.splice(index, 1)
 					}),
 				)
 			},

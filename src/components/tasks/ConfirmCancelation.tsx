@@ -6,16 +6,20 @@ import { useProgress } from '@/hooks/useProgress'
 
 type Props = {
 	handleCancell: () => void
+	isPending: boolean
 }
 
-export const ConfirmCancelation = ({ handleCancell }: Props) => {
-	const { progress } = useProgress({ value: 10 })
+export const ConfirmCancelation = ({
+	handleCancell,
+	isPending = false,
+}: Props) => {
+	const { progress } = useProgress({ value: 5 })
 
 	const count = `${progress}`.padStart(2, '0')
 
 	return (
 		<div className='h-full place-self-stretch flex items-center justify-center flex-col'>
-			{progress === 0 ? (
+			{isPending ? (
 				<Spin className='w-10 h-10 text-red-500' />
 			) : (
 				<React.Fragment>
