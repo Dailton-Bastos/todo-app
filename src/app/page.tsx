@@ -1,14 +1,14 @@
 import React from 'react'
 
 import { Header } from '@/components/Header'
-import { AllTasks } from '@/components/tasks/All'
+import { ListTasks } from '@/components/tasks/ListTasks'
 
 const Home = () => {
 	return (
 		<section className='w-full pt-8'>
 			<Header title='All Tasks' />
 
-			<AllTasks />
+			<ListTasks />
 		</section>
 	)
 }

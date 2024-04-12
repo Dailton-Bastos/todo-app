@@ -48,6 +48,7 @@
 		"base32-encode": "^2.0.0",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.0",
+		"fuse.js": "^7.0.0",
 		"immer": "^10.0.4",
 		"lucia": "^3.1.1",
 		"next": "14.1.3",

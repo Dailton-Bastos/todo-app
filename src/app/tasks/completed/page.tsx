@@ -1,14 +1,14 @@
 import React from 'react'
 
 import { Header } from '@/components/Header'
-import { CompletedTasks } from '@/components/tasks/Completed'
+import { ListTasks } from '@/components/tasks/ListTasks'
 
 const TasksCompletedPage = () => {
 	return (
 		<section className='w-full pt-8'>
-			<Header title='Completed Tasks' />
+			<Header title='Completed Tasks' searchType='completed' />
 
-			<CompletedTasks />
+			<ListTasks type='completed' />
 		</section>
 	)
 }

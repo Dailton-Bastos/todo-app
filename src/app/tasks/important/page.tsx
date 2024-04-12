@@ -1,14 +1,14 @@
 import React from 'react'
 
 import { Header } from '@/components/Header'
-import { ImportantTasks } from '@/components/tasks/Important'
+import { ListTasks } from '@/components/tasks/ListTasks'
 
 const TasksImportantPage = () => {
 	return (
 		<section className='w-full pt-8'>
-			<Header title='Important Tasks' />
+			<Header title='Important Tasks' searchType='important' />
 
-			<ImportantTasks />
+			<ListTasks type='important' />
 		</section>
 	)
 }

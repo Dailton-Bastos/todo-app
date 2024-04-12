@@ -1,19 +1,23 @@
 'use client'
 
 import React from 'react'
-import { IoAddOutline, IoSearchOutline } from 'react-icons/io5'
+import { IoAddOutline } from 'react-icons/io5'
 
 import { Button } from '@/components/ui/Button'
-import { Input } from '@/components/ui/Input'
 import { useAuthModal } from '@/hooks/useAuthModal'
 import { useTaskModal } from '@/hooks/useTaskModal'
 import { useSession } from '@/providers/sessionProvider'
 
+import { Search } from '../Search'
+
+type SearchOn = 'all' | 'important' | 'completed' | 'incomplete'
+
 type Props = {
 	title: string
+	searchType?: SearchOn
 }
 
-export const Header = ({ title }: Props) => {
+export const Header = ({ title, searchType = 'all' }: Props) => {
 	const { onOpen: onOpenAuthModal } = useAuthModal()
 	const { onOpen: onOpenTaskModal } = useTaskModal()
 
@@ -35,21 +39,7 @@ export const Header = ({ title }: Props) => {
 				{title}
 			</h1>
 
-			<div className='relative w-full max-w-3xl'>
-				<label htmlFor='simple-search' className='sr-only'>
-					Search tasks
-				</label>
-				<div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
-					<IoSearchOutline className='w-6 h-6 stroke-gray-500' />
-				</div>
-
-				<Input
-					placeholder='Search tasks'
-					type='text'
-					className='h-10 min-w-56 block w-full p-2.5 ps-10 border-gray-500 focus-visible:ring-transparent focus:border-green-500 text-white text-sm font-normal'
-					id='simple-search'
-				/>
-			</div>
+			<Search type={searchType} />
 
 			<Button
 				className='flex items-center rounded-full border-2 border-gray-500 p-0 w-10 h-10'
