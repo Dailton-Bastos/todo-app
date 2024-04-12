@@ -26,19 +26,19 @@ export const Menu = () => {
 			{
 				icon: IoAlertCircleOutline,
 				label: 'Important',
-				isActive: pathname === '/important',
+				isActive: pathname === '/tasks/important',
 				href: '/tasks/important',
 			},
 			{
 				icon: IoCheckmarkDoneOutline,
 				label: 'Completed',
-				isActive: pathname === '/completed',
+				isActive: pathname === '/tasks/completed',
 				href: '/tasks/completed',
 			},
 			{
 				icon: IoCloseOutline,
 				label: 'Do It Now',
-				isActive: pathname === '/todo',
+				isActive: pathname === '/tasks/do-it-now',
 				href: '/tasks/do-it-now',
 			},
 		],
