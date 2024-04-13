@@ -25,7 +25,7 @@ export const ConfirmCancelation = ({
 				<React.Fragment>
 					<div className='flex items-center justify-center w-full border rounded-lg p-3 mb-4 relative border-red-600'>
 						<span className='text-red-500 text-sm font-semibold'>
-							Excluindo em (00:{count})
+							Wait (00:{count})
 						</span>
 
 						<div className='absolute bg-red-400/30 w-0 h-full left-0 animate-progress-bar transition-all' />
@@ -35,7 +35,7 @@ export const ConfirmCancelation = ({
 						className='text-red-500 font-semibold'
 						onClick={handleCancell}
 					>
-						Cancelar
+						Cancel
 					</Button>
 				</React.Fragment>
 			)}

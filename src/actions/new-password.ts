@@ -63,6 +63,7 @@ export const newPassword = async (
 			where: { id: existingToken.userId },
 			data: {
 				password: hashedPassword,
+				emailVerified: existingUser.emailVerified ? undefined : new Date(),
 			},
 		})
 
@@ -72,15 +73,17 @@ export const newPassword = async (
 
 		await lucia.invalidateUserSessions(existingToken.userId)
 
-		const session = await lucia.createSession(existingToken.userId, {})
+		if (!existingUser.isTwoFactorEnabled) {
+			const session = await lucia.createSession(existingToken.userId, {})
 
-		const sessionCookie = lucia.createSessionCookie(session.id)
+			const sessionCookie = lucia.createSessionCookie(session.id)
 
-		cookies().set(
-			sessionCookie.name,
-			sessionCookie.value,
-			sessionCookie.attributes,
-		)
+			cookies().set(
+				sessionCookie.name,
+				sessionCookie.value,
+				sessionCookie.attributes,
+			)
+		}
 
 		await client.invokeJob('notify-password-updated', {
 			email: existingUser.email,
